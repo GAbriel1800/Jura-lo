@@ -7,25 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>JuraLo</h1>
-    </header>
-    <main>
-        <section id="create-juramento">
-            <h2>Crea tu Juramento</h2>
-            <form id="juramento-form">
-                <label for="motivo">Motivo:</label>
-                <textarea id="motivo" name="motivo" required></textarea>
-                <label for="detalles">Detalles:</label>
-                <textarea id="detalles" name="detalles"></textarea>
-                <button type="submit">Generar Enlace</button>
-            </form>
-            <div id="link-container" style="display: none;">
-                <h2>Tu Enlace:</h2>
-                <a id="juramento-link" href="#" target="_blank"></a>
-            </div>
-        </section>
-    </main>
+    <h1>Crear un Juramento</h1>
+    <form id="juramento-form">
+        <label for="motivo">Motivo:</label>
+        <input type="text" id="motivo" required>
+        <br>
+        <label for="detalles">Detalles:</label>
+        <textarea id="detalles" required></textarea>
+        <br>
+        <button type="submit">Crear Juramento</button>
+    </form>
+    <div id="result-container"></div>
     <script src="script.js"></script>
 </body>
 </html>
+
