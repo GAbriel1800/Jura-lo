@@ -1,54 +1,43 @@
+// server.js
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
 
-app.use(express.json());
-app.use(express.static('public'));
+// Configuración de MongoDB
+mongoose.connect('mongodb://localhost/juramentos', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-let juramentos = {};
+// Esquema y modelo de Juramento
+const juramentoSchema = new mongoose.Schema({
+    motivo: String,
+    detalles: String,
+    fecha: { type: Date, default: Date.now }
+});
 
-app.post('/generate-link', (req, res) => {
+const Juramento = mongoose.model('Juramento', juramentoSchema);
+
+// Middleware
+app.use(bodyParser.json());
+app.use(express.static('public'));  // Para servir archivos estáticos
+
+// Ruta para crear un juramento
+app.post('/juramentos', async (req, res) => {
     const { motivo, detalles } = req.body;
-    const id = uuidv4();
-    const link = `http://localhost:${port}/juramento/${id}`;
-    
-    juramentos[id] = { motivo, detalles };
-    
-    res.json({ success: true, link });
+    const nuevoJuramento = new Juramento({ motivo, detalles });
+    await nuevoJuramento.save();
+    res.json(nuevoJuramento);
 });
 
-app.get('/juramento/:id', (req, res) => {
-    const { id } = req.params;
-    const juramento = juramentos[id];
-    
-    if (juramento) {
-        res.send(`
-            <!DOCTYPE html>
-            <html lang="es">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>JuraLo</title>
-            </head>
-            <body>
-                <h1>Juramento</h1>
-                <p><strong>Motivo:</strong> ${juramento.motivo}</p>
-                <p><strong>Detalles:</strong> ${juramento.detalles}</p>
-                <button onclick="confirmarJuramento()">Jurar</button>
-                <script>
-                    function confirmarJuramento() {
-                        alert('¡Has jurado cumplir con este compromiso!');
-                    }
-                </script>
-            </body>
-            </html>
-        `);
-    } else {
-        res.status(404).send('Juramento no encontrado');
-    }
+// Ruta para obtener los juramentos
+app.get('/juramentos', async (req, res) => {
+    const juramentos = await Juramento.find().sort({ fecha: -1 });  // Más recientes primero
+    res.json(juramentos);
 });
 
-app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+// Iniciar el servidor
+app.listen(3000, () => {
+    console.log('Servidor corriendo en http://localhost:3000');
 });
