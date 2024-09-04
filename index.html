@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuraLo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>JuraLo</h1>
+    </header>
+    <main>
+        <section id="create-juramento">
+            <h2>Crea tu Juramento</h2>
+            <form id="juramento-form">
+                <label for="motivo">Motivo:</label>
+                <textarea id="motivo" name="motivo" required></textarea>
+                <label for="detalles">Detalles:</label>
+                <textarea id="detalles" name="detalles"></textarea>
+                <button type="submit">Generar Enlace</button>
+            </form>
+            <div id="link-container" style="display: none;">
+                <h2>Tu Enlace:</h2>
+                <a id="juramento-link" href="#" target="_blank"></a>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
