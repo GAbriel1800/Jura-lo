@@ -1,0 +1,13 @@
+{
+  "name": "jura-lo",
+  "version": "1.0.0",
+  "description": "Aplicación para juramentos privados",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
